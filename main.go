@@ -1,35 +1,34 @@
 package main
 
-import(
+import (
 	"rest-api-test/models"
 	"rest-api-test/routes"
+	"rest-api-test/config"
 	"github.com/jinzhu/gorm"
 	"fmt"
-	"rest-api-test/config"
 )
 
 var err error
 
-func main(){
-	// fmt.Println("test")
-	// fmt.Println(controller.UserController())
+func main()  {
 
-	//configuration of db
-
+	//db configuration
 	config.DB, err = gorm.Open("mysql", config.DbURL(config.BuildDBConfig()))
 
-	//checking the errors
+	//error handling
 	if err != nil {
 		fmt.Println("Status:", err)
 	}
 
-	//closing the database
+	//db close
 	defer config.DB.Close()
 
-	//migrating the setup
+	//model migrate 
 	config.DB.AutoMigrate(&models.Article{})
 
+	//all the routers
 	r := routes.SetupRouter()
 	//running
 	r.Run()
+
 }
