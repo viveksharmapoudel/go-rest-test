@@ -1,9 +1,25 @@
+##go base image @latest
 FROM golang:alpine
-RUN apk update && apk add --no-cache git
+
+
+
+##my work directory 
 WORKDIR /rest-api-gin-gorm-sql
-COPY go.mod go.sum ./
-RUN go mod download 
+
+
+## copy all the dependency 
 COPY . .
-ENV PORT 8000
+
+##download all the dependency
+RUN go mod download 
+
+##test
+RUN go get github.com/githubnemo/CompileDaemon
+
+
+##building the app 
 RUN go build
-CMD ["./rest-api-test"]
+
+## run the cmd
+##check the name of the directory and the entry command point 
+ENTRYPOINT ["CompileDaemon", "--directory=/rest-api-gin-gorm-sql",  "--command=/rest-api-gin-gorm-sql/rest-api-test"]

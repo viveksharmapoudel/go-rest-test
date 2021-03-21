@@ -9,6 +9,8 @@ import (
 //SetupRouter ... Configure routes
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+
+	//grouped the links 
 	articleGrp := r.Group("/article-api")
 	{
 		articleGrp.GET("article", controller.GetArticles)

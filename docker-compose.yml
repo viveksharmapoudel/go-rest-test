@@ -9,25 +9,27 @@ services:
       - 8080:8080
     volumes:
       - .:/rest-api-gin-gorm-sql
+    container_name: article-docker-web
     depends_on:
       - database
-    container_name: rest-api-test
-    environment:
-      - 'DB_PORT=3306'
-      - 'DB_HOST=database'
+
 
   database:
-    image: mysql:5.7.22
+    build:
+      context: .
+      dockerfile: ./db/db.Dockerfile
     environment:
+      ##keep the name same
       MYSQL_ROOT_PASSWORD: root
+      ##we normally access by root but keep it like this 
       MYSQL_USER: test
       MYSQL_PASSWORD: test
+      ##keep the database name what you want to keep
       MYSQL_DATABASE: articledb
-    container_name: golang-docker-db
+    ##this will be the name of the container that you want to create
+    container_name: article-docker-db
     ports:
-      - 3306:3306
-    volumes:
-      - /var/lib/mysql
+      - 33066:3306
 
 
   pma:
@@ -39,4 +41,10 @@ services:
     environment:
       - 'PMA_HOST=database'
       - 'PMA_PORT=3306'
-    container_name: golang-docker-pma
+    container_name: article-docker-pma
+    
+    
+      
+
+
+

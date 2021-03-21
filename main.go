@@ -6,12 +6,14 @@ import (
 	"rest-api-test/config"
 	"github.com/jinzhu/gorm"
 	"fmt"
+	"log"
 )
 
 var err error
 
 func main()  {
 
+	log.Println("testtttttttsdfdfsjdsb")
 	//db configuration
 	config.DB, err = gorm.Open("mysql", config.DbURL(config.BuildDBConfig()))
 
@@ -26,9 +28,9 @@ func main()  {
 	//model migrate 
 	config.DB.AutoMigrate(&models.Article{})
 
-	//all the routers
+	// //all the routers
 	r := routes.SetupRouter()
-	//running
+	// //running
 	r.Run()
 
 }
